@@ -1,4 +1,5 @@
-﻿using OpenAQApiWrapper.Entities;
+﻿using CSharpFunctionalExtensions;
+using OpenAQApiWrapper.Entities;
 using OpenAQApiWrapper.Filters;
 using OpenAQApiWrapper.Responses;
 
@@ -6,12 +7,16 @@ namespace OpenAQApiWrapper.Services
 {
     public interface IOpenAQApiWrapper
     {
-        Task<PagedResponse<City>> GetCities(CitiesFilter citiesFilter);
+        Task<Result<PagedResponse<City>>> GetCitiesAsync(CitiesFilter citiesFilter,
+            CancellationToken cancellationToken = default);
 
-        Task<PagedResponse<Country>> GetCountry(CountryFilter countryFilter);
+        Task<Result<PagedResponse<Country>>> GetCountryAsync(string countryCode, 
+            CancellationToken cancellationToken = default);
 
-        Task<PagedResponse<Country>> GetCountries(CountriesFilter countryFilter);
+        Task<Result<PagedResponse<Country>>> GetCountriesAsync(CountriesFilter countryFilter, 
+            CancellationToken cancellationToken = default);
 
-        Task<PagedResponse<LocationMeasurements>> GetLatestMeasurements(LatestMeasurementsFilter measurementsFilter);
+        Task<Result<PagedResponse<LocationMeasurements>>> GetLatestMeasurementsAsync(LatestMeasurementsFilter measurementsFilter, 
+            CancellationToken cancellationToken = default);
     }
 }

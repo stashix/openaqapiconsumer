@@ -3,6 +3,7 @@ using OpenAQApiWrapper.Entities;
 using OpenAQApiWrapper.Filters;
 using OpenAQApiWrapper.Services;
 using OpenAQWebApi.Results;
+using System.Net;
 
 namespace OpenAQWebApi.Controllers
 {
@@ -11,21 +12,22 @@ namespace OpenAQWebApi.Controllers
     [ApiVersion("1.0")]
     public class MeasurementsController : ControllerBase
     {
-        private readonly ILogger<MeasurementsController> _logger;
         private readonly IOpenAQApiWrapper _openAQApiWrapper;
 
-        public MeasurementsController(ILogger<MeasurementsController> logger,
-            IOpenAQApiWrapper openAQApiWrapper)
+        public MeasurementsController(IOpenAQApiWrapper openAQApiWrapper)
         {
-            _logger = logger;
             _openAQApiWrapper = openAQApiWrapper;
         }
 
         [HttpGet("latest")]
-        public async Task<PagedResult<LocationMeasurements>> Latest([FromQuery] LatestMeasurementsFilter measurementsFilter)
+        public async Task<ActionResult<PagedResult<LocationMeasurements>>> Get([FromQuery] LatestMeasurementsFilter measurementsFilter)
         {
-            var response = await _openAQApiWrapper.GetLatestMeasurements(measurementsFilter);
-            return PagedResult<LocationMeasurements>.FromOpenApiResponse(response);
+            var result = await _openAQApiWrapper.GetLatestMeasurementsAsync(measurementsFilter);
+
+            if (result.IsFailure)
+                return StatusCode(500, new ErrorResult(result.Error));
+
+            return new PagedResult<LocationMeasurements>(result.Value);
         }
     }
 }

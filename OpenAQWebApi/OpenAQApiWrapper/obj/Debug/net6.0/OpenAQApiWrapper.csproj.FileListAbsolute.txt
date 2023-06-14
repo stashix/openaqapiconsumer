@@ -1,0 +1,12 @@
+C:\Users\xzivk\source\repos\openaqapiconsumer\OpenAQWebApi\OpenAQApiWrapper\bin\Debug\net6.0\OpenAQApiWrapper.deps.json
+C:\Users\xzivk\source\repos\openaqapiconsumer\OpenAQWebApi\OpenAQApiWrapper\bin\Debug\net6.0\OpenAQApiWrapper.dll
+C:\Users\xzivk\source\repos\openaqapiconsumer\OpenAQWebApi\OpenAQApiWrapper\bin\Debug\net6.0\OpenAQApiWrapper.pdb
+C:\Users\xzivk\source\repos\openaqapiconsumer\OpenAQWebApi\OpenAQApiWrapper\obj\Debug\net6.0\OpenAQApiWrapper.csproj.AssemblyReference.cache
+C:\Users\xzivk\source\repos\openaqapiconsumer\OpenAQWebApi\OpenAQApiWrapper\obj\Debug\net6.0\OpenAQApiWrapper.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\xzivk\source\repos\openaqapiconsumer\OpenAQWebApi\OpenAQApiWrapper\obj\Debug\net6.0\OpenAQApiWrapper.AssemblyInfoInputs.cache
+C:\Users\xzivk\source\repos\openaqapiconsumer\OpenAQWebApi\OpenAQApiWrapper\obj\Debug\net6.0\OpenAQApiWrapper.AssemblyInfo.cs
+C:\Users\xzivk\source\repos\openaqapiconsumer\OpenAQWebApi\OpenAQApiWrapper\obj\Debug\net6.0\OpenAQApiWrapper.csproj.CoreCompileInputs.cache
+C:\Users\xzivk\source\repos\openaqapiconsumer\OpenAQWebApi\OpenAQApiWrapper\obj\Debug\net6.0\OpenAQApiWrapper.dll
+C:\Users\xzivk\source\repos\openaqapiconsumer\OpenAQWebApi\OpenAQApiWrapper\obj\Debug\net6.0\refint\OpenAQApiWrapper.dll
+C:\Users\xzivk\source\repos\openaqapiconsumer\OpenAQWebApi\OpenAQApiWrapper\obj\Debug\net6.0\OpenAQApiWrapper.pdb
+C:\Users\xzivk\source\repos\openaqapiconsumer\OpenAQWebApi\OpenAQApiWrapper\obj\Debug\net6.0\ref\OpenAQApiWrapper.dll

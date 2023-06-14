@@ -10,6 +10,18 @@ namespace OpenAQWebApi.Results
             Results = Enumerable.Empty<T>();
         }
 
+        public PagedResult(PagedResponse<T> pagedResponse)
+        {
+            if(pagedResponse is null)
+                throw new ArgumentNullException(nameof(pagedResponse));
+
+            MayHaveMore = pagedResponse.Metadata.Found >= pagedResponse.Metadata.Limit;
+            Page = pagedResponse.Metadata?.Page ?? 0;
+            PageSize = pagedResponse.Metadata?.Limit ?? 0;
+            ResultCount = pagedResponse.Metadata?.Found ?? 0;
+            Results = pagedResponse.Results ?? Enumerable.Empty<T>();
+        }
+
         [JsonPropertyName("pageNumber")]
         public int Page { get; init; }
 
@@ -24,18 +36,5 @@ namespace OpenAQWebApi.Results
 
         [JsonPropertyName("results")]
         public IEnumerable<T> Results { get; init; }
-
-        public static PagedResult<T> FromOpenApiResponse(PagedResponse<T> pagedResponse)
-        {
-            return new PagedResult<T>()
-            {
-                MayHaveMore = pagedResponse is not null 
-                    && pagedResponse.Metadata.Found >= pagedResponse.Metadata.Limit,
-                Page = pagedResponse?.Metadata?.Page ?? 0,
-                PageSize = pagedResponse?.Metadata?.Limit ?? 0,
-                ResultCount = pagedResponse?.Metadata?.Found ?? 0,
-                Results = pagedResponse?.Results ?? Enumerable.Empty<T>()
-            };
-        }
     }
 }

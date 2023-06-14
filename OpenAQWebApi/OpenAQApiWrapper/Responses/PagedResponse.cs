@@ -9,6 +9,6 @@ namespace OpenAQApiWrapper.Responses
         public Metadata Metadata { get; init; } = new Metadata();
 
         [JsonPropertyName("results")]
-        public IEnumerable<T> Results { get; init; } = Enumerable.Empty<T>();
+        public IList<T> Results { get; init; } = Array.Empty<T>();
     }
 }
