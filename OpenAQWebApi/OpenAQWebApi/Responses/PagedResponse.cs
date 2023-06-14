@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 using OpenAQWebApi.Entities;
 
 namespace OpenAQWebApi.Responses
@@ -7,10 +8,10 @@ namespace OpenAQWebApi.Responses
     [DataContract]
     public class PagedResponse<T> where T : class
     {
-        [DataMember(Name = "meta")]
+        [JsonPropertyName("meta")]
         public Metadata Metadata { get; init; }
 
-        [DataMember(Name = "results")]
+        [JsonPropertyName("results")]
         public IList<T> Results { get; init; }
     }
 }

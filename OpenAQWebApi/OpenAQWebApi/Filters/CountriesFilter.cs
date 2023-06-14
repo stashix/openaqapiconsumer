@@ -7,7 +7,7 @@ namespace OpenAQWebApi.Filters
     public class CountriesFilter : PagingFilter
     {
         [StringLength(2)]
-        [RegularExpression("[a-Z][a-Z]")]
+        [RegularExpression("[A-Za-z][A-Za-z]")]
         [JsonPropertyName("country_id")]
         public string? CountryId { get; init; }
 
@@ -15,6 +15,6 @@ namespace OpenAQWebApi.Filters
         public IEnumerable<string>? Countries { get; init; }
 
         [JsonPropertyName("order_by")]
-        public Order OrderBy { get; init; }
+        public CountryOrder? OrderBy { get; init; }
     }
 }

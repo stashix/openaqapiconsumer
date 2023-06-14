@@ -11,5 +11,7 @@ namespace OpenAQWebApi.Services
         Task<PagedResponse<Country>> GetCountry(CountryFilter countryFilter);
 
         Task<PagedResponse<Country>> GetCountries(CountriesFilter countryFilter);
+
+        Task<PagedResponse<LocationMeasurements>> GetLatestMeasurements(LatestMeasurementsFilter measurementsFilter);
     }
 }

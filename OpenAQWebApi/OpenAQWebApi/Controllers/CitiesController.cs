@@ -6,7 +6,8 @@ using OpenAQWebApi.Services;
 namespace OpenAQWebApi.Controllers
 {
     [ApiController]
-    [Route("cities")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [ApiVersion("1.0")]
     public class CitiesController : ControllerBase
     {
         private readonly ILogger<CitiesController> _logger;
@@ -19,14 +20,10 @@ namespace OpenAQWebApi.Controllers
             _openAQApiWrapper = openAQApiWrapper;
         }
 
-        [HttpGet(Name = "GetCities")]
-        public async Task<IEnumerable<City>> Get()
+        [HttpGet]
+        public async Task<IEnumerable<City>> Get([FromQuery] CitiesFilter citiesFilter)
         {
-            var response = await _openAQApiWrapper.GetCities(new CitiesFilter()
-            {
-                Countries = new string[] { "CZ", "SK" }
-            });
-
+            var response = await _openAQApiWrapper.GetCities(citiesFilter);
             return response.Results;
         }
     }

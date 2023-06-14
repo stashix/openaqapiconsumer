@@ -6,7 +6,8 @@ using OpenAQWebApi.Services;
 namespace OpenAQWebApi.Controllers
 {
     [ApiController]
-    [Route("countries")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [ApiVersion("1.0")]
     public class CountriesController : ControllerBase
     {
         private readonly ILogger<CountriesController> _logger;
@@ -20,22 +21,18 @@ namespace OpenAQWebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Country>> Countries()
+        public async Task<IEnumerable<Country>> Get([FromQuery] CountriesFilter countriesFilter)
         {
-            var response = await _openAQApiWrapper.GetCountries(new CountriesFilter()
-            {
-
-            });
-
+            var response = await _openAQApiWrapper.GetCountries(countriesFilter);
             return response.Results;
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<Country>> Country()
+        [HttpGet("{code}")]
+        public async Task<IEnumerable<Country>> Get(string code)
         {
             var response = await _openAQApiWrapper.GetCountry(new CountryFilter()
             {
-
+                CountryId = code
             });
 
             return response.Results;

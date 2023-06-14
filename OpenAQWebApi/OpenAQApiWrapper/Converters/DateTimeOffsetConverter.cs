@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace OpenAQWebApi.Converters
+namespace OpenAQApiWrapper.Converters
 {
     public class DateTimeOffsetConverter : JsonConverter<DateTime>
     {

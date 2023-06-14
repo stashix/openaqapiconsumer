@@ -1,4 +1,5 @@
 ﻿using OpenAQWebApi.Entities;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
@@ -8,17 +9,18 @@ namespace OpenAQWebApi.Filters
     {
         [Required]
         [Range(0, 100000)]
+        [DefaultValue(100)]
         [JsonPropertyName("limit")]
         public int Limit { get; init; } = 100;
 
+        [Required]
         [Range(0, 6000)]
+        [DefaultValue(1)]
         [JsonPropertyName("page")]
         public int Page { get; init; } = 1;
 
-        [Range(0, 10000)]
-        [JsonPropertyName("offset")]
-        public int Offset { get; init; } = 0;
-
+        [Required]
+        [DefaultValue(SortOrder.Ascending)]
         [JsonPropertyName("sort")]
         public SortOrder SortBy { get; init; } = SortOrder.Ascending;
     }

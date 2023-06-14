@@ -4,16 +4,17 @@ using OpenAQWebApi.Entities;
 using OpenAQWebApi.Filters;
 using OpenAQWebApi.Responses;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
 namespace OpenAQWebApi.Services
 {
-    public class OpenAQApiWrapper : IOpenAQApiWrapper
+    public class OpenAQV2ApiWrapper : IOpenAQApiWrapper
     {
-        private readonly ILogger<OpenAQApiWrapper> _logger;
+        private readonly ILogger<OpenAQV2ApiWrapper> _logger;
         private readonly HttpClient _httpClient;
 
-        public OpenAQApiWrapper(ILogger<OpenAQApiWrapper> logger, HttpClient httpClient) 
+        public OpenAQV2ApiWrapper(ILogger<OpenAQV2ApiWrapper> logger, HttpClient httpClient) 
         { 
             _logger = logger 
                 ?? throw new ArgumentNullException(nameof(logger));
@@ -22,7 +23,7 @@ namespace OpenAQWebApi.Services
                 ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
-        public async Task<PagedResponse<City>?> GetCities(CitiesFilter citiesFilter)
+        public async Task<PagedResponse<City>> GetCities(CitiesFilter citiesFilter)
         {
             if (citiesFilter is null)
                 throw new ArgumentNullException(nameof(citiesFilter));
@@ -44,7 +45,16 @@ namespace OpenAQWebApi.Services
             if (countriesFilter is null)
                 throw new ArgumentNullException(nameof(countriesFilter));
 
-            throw new NotImplementedException();
+            var url = CreateQuery("countries", countriesFilter);
+
+            using (var requestMessage = new HttpRequestMessage(HttpMethod.Get, url))
+            {
+                var response = await _httpClient.SendAsync(requestMessage);
+                var responseString = await response.Content.ReadAsStringAsync();
+                var result = await response.Content.ReadFromJsonAsync<PagedResponse<Country>>();
+
+                return result;
+            }
         }
 
         public async Task<PagedResponse<Country>> GetCountry(CountryFilter countryFilter)
@@ -52,7 +62,33 @@ namespace OpenAQWebApi.Services
             if (countryFilter is null)
                 throw new ArgumentNullException(nameof(countryFilter));
 
-            throw new NotImplementedException();
+            var url = CreateQuery("countries", countryFilter);
+
+            using (var requestMessage = new HttpRequestMessage(HttpMethod.Get, url))
+            {
+                var response = await _httpClient.SendAsync(requestMessage);
+                var responseString = await response.Content.ReadAsStringAsync();
+                var result = await response.Content.ReadFromJsonAsync<PagedResponse<Country>>();
+
+                return result;
+            }
+        }
+
+        public async Task<PagedResponse<LocationMeasurements>> GetLatestMeasurements(LatestMeasurementsFilter measurementsFilter)
+        {
+            if (measurementsFilter is null)
+                throw new ArgumentNullException(nameof(measurementsFilter));
+
+            var url = CreateQuery("latest", measurementsFilter);
+
+            using (var requestMessage = new HttpRequestMessage(HttpMethod.Get, url))
+            {
+                var response = await _httpClient.SendAsync(requestMessage);
+                var responseString = await response.Content.ReadAsStringAsync();
+                var result = await response.Content.ReadFromJsonAsync<PagedResponse<LocationMeasurements>>();
+
+                return result;
+            }
         }
 
         private static string CreateQuery<T>(string relativeUri, T filterModel) where T : class
@@ -72,16 +108,24 @@ namespace OpenAQWebApi.Services
                 if (propertyValue is null)
                     continue;
 
-                if (prop.PropertyType.IsEnum)
+                if (prop.PropertyType.IsEnum || Nullable.GetUnderlyingType(prop.PropertyType)?.IsEnum == true)
                 {
-                    var enumLabel = propertyValue.
+                    var enumType = prop.PropertyType.IsEnum ? prop.PropertyType 
+                        : Nullable.GetUnderlyingType(prop.PropertyType);
+
+                    var enumLabel = enumType?.GetTypeInfo()
+                        .DeclaredMembers
+                        .SingleOrDefault(x => x.Name == propertyValue.ToString())
+                        ?.GetCustomAttribute<EnumMemberAttribute>()?.Value;
+
+                    keyValuePairsList.Add(KeyValuePair.Create(jsonPropertyName, new StringValues(enumLabel)));
                     continue;
                 }
 
                 if (prop.PropertyType.IsAssignableFrom(typeof(IEnumerable<string>)))
                 {
                     var collectionValue = propertyValue as IEnumerable<string>;
-                    keyValuePairsList.Add(KeyValuePair.Create(jsonPropertyName, new StringValues(collectionValue.ToArray())));
+                    keyValuePairsList.Add(KeyValuePair.Create(jsonPropertyName, new StringValues(collectionValue?.ToArray())));
                     continue;
                 }
 
