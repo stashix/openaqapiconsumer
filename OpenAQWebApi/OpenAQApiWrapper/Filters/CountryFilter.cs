@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace OpenAQApiWrapper.Filters
 {
-    public class CountryFilter : PagingFilter
+    public sealed class CountryFilter : PagingFilter
     {
         [Required]
         [StringLength(2)]

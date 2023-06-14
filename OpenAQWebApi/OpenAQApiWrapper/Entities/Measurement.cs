@@ -2,7 +2,7 @@
 
 namespace OpenAQApiWrapper.Entities
 {
-    public class Measurement
+    public sealed class Measurement
     {
         [JsonPropertyName("parameter")]
         public string? Parameter { get; init; }

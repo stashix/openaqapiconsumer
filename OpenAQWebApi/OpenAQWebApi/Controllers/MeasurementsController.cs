@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OpenAQWebApi.Entities;
-using OpenAQWebApi.Filters;
-using OpenAQWebApi.Services;
+using OpenAQApiWrapper.Entities;
+using OpenAQApiWrapper.Filters;
+using OpenAQApiWrapper.Services;
+using OpenAQWebApi.Results;
 
 namespace OpenAQWebApi.Controllers
 {
@@ -21,10 +22,10 @@ namespace OpenAQWebApi.Controllers
         }
 
         [HttpGet("latest")]
-        public async Task<IEnumerable<LocationMeasurements>> Latest([FromQuery] LatestMeasurementsFilter measurementsFilter)
+        public async Task<PagedResult<LocationMeasurements>> Latest([FromQuery] LatestMeasurementsFilter measurementsFilter)
         {
             var response = await _openAQApiWrapper.GetLatestMeasurements(measurementsFilter);
-            return response.Results;
+            return PagedResult<LocationMeasurements>.FromOpenApiResponse(response);
         }
     }
 }

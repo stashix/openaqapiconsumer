@@ -11,7 +11,7 @@ using System.Text.Json.Serialization;
 
 namespace OpenAQApiWrapper.Services
 {
-    public class OpenAQV2ApiWrapper : IOpenAQApiWrapper
+    internal class OpenAQV2ApiWrapper : IOpenAQApiWrapper
     {
         private readonly ILogger<OpenAQV2ApiWrapper> _logger;
         private readonly HttpClient _httpClient;

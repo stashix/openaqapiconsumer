@@ -32,3 +32,12 @@ C:\Users\xzivk\source\repos\openaqapiconsumer\OpenAQWebApi\OpenAQWebApi\obj\Debu
 C:\Users\xzivk\source\repos\openaqapiconsumer\OpenAQWebApi\OpenAQWebApi\obj\Debug\net6.0\ref\OpenAQWebApi.dll
 C:\Users\xzivk\source\repos\openaqapiconsumer\OpenAQWebApi\OpenAQWebApi\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.Versioning.dll
 C:\Users\xzivk\source\repos\openaqapiconsumer\OpenAQWebApi\OpenAQWebApi\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer.dll
+C:\Users\xzivk\source\repos\openaqapiconsumer\OpenAQWebApi\OpenAQWebApi\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\xzivk\source\repos\openaqapiconsumer\OpenAQWebApi\OpenAQWebApi\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\xzivk\source\repos\openaqapiconsumer\OpenAQWebApi\OpenAQWebApi\bin\Debug\net6.0\Microsoft.Extensions.Http.dll
+C:\Users\xzivk\source\repos\openaqapiconsumer\OpenAQWebApi\OpenAQWebApi\bin\Debug\net6.0\Microsoft.Extensions.Logging.dll
+C:\Users\xzivk\source\repos\openaqapiconsumer\OpenAQWebApi\OpenAQWebApi\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\xzivk\source\repos\openaqapiconsumer\OpenAQWebApi\OpenAQWebApi\bin\Debug\net6.0\Microsoft.Extensions.Options.dll
+C:\Users\xzivk\source\repos\openaqapiconsumer\OpenAQWebApi\OpenAQWebApi\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
+C:\Users\xzivk\source\repos\openaqapiconsumer\OpenAQWebApi\OpenAQWebApi\bin\Debug\net6.0\OpenAQApiWrapper.dll
+C:\Users\xzivk\source\repos\openaqapiconsumer\OpenAQWebApi\OpenAQWebApi\bin\Debug\net6.0\OpenAQApiWrapper.pdb

@@ -1,5 +1,5 @@
+using OpenAQApiWrapper.Initialization;
 using OpenAQWebApi.Configuration;
-using OpenAQWebApi.Initialization;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);

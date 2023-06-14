@@ -2,7 +2,7 @@
 
 namespace OpenAQApiWrapper.Entities
 {
-    public class Metadata
+    public sealed class Metadata
     {
         [JsonPropertyName("name")]
         public string? Name { get; init; }
@@ -20,6 +20,6 @@ namespace OpenAQApiWrapper.Entities
         public int Page { get; init; }
 
         [JsonPropertyName("found")]
-        public long Found { get; init; }
+        public int Found { get; init; }
     }
 }

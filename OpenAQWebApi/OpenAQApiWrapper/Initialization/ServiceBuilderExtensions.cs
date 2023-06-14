@@ -2,7 +2,7 @@
 using OpenAQApiWrapper.Services;
 using System.Net.Http.Headers;
 
-namespace OpenAQWebApi.Initialization
+namespace OpenAQApiWrapper.Initialization
 {
     public static class ServiceBuilderExtensions
     {

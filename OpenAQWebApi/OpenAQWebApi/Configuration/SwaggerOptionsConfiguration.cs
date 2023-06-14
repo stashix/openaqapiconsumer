@@ -16,7 +16,7 @@ namespace OpenAQWebApi.Configuration
                 ?? throw new ArgumentNullException(nameof(apiVersionDescriptionProvider));
         }
 
-        public void Configure(string name, SwaggerGenOptions options) => Configure(options);
+        public void Configure(string? name, SwaggerGenOptions options) => Configure(options);
 
         public void Configure(SwaggerGenOptions options)
         {

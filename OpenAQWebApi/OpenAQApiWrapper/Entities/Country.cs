@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace OpenAQApiWrapper.Entities
 {
-    public class Country
+    public sealed class Country
     {
         [JsonPropertyName("code")]
         public string? Code { get; init; }
@@ -23,7 +23,7 @@ namespace OpenAQApiWrapper.Entities
         public DateTime? LastUpdated { get; init; }
 
         [JsonPropertyName("parameters")]
-        public IList<string>? Parameters { get; init; }
+        public IList<string> Parameters { get; init; } = Array.Empty<string>();
 
         [JsonPropertyName("count")]
         public int Count { get; init; }

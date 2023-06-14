@@ -2,7 +2,7 @@
 
 namespace OpenAQApiWrapper.Entities
 {
-    public class GeoCoordinates
+    public sealed class GeoCoordinates
     {
         [JsonPropertyName("latitude")]
         public double Latitude { get; init; }

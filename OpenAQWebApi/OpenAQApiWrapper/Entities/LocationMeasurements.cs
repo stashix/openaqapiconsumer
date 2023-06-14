@@ -2,7 +2,7 @@
 
 namespace OpenAQApiWrapper.Entities
 {
-    public class LocationMeasurements
+    public sealed class LocationMeasurements
     {
         [JsonPropertyName("location")]
         public string? Location { get; init; }
@@ -17,6 +17,6 @@ namespace OpenAQApiWrapper.Entities
         public GeoCoordinates? Coordinates { get; init; }
 
         [JsonPropertyName("measurements")]
-        public IList<Measurement>? Measurements { get; init; }
+        public IList<Measurement> Measurements { get; init; } = Array.Empty<Measurement>();
     }
 }

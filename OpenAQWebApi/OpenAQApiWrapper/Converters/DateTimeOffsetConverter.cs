@@ -4,13 +4,13 @@ using System.Text.Json.Serialization;
 
 namespace OpenAQApiWrapper.Converters
 {
-    public class DateTimeOffsetConverter : JsonConverter<DateTime>
+    internal class DateTimeOffsetConverter : JsonConverter<DateTime>
     {
         private const string _format = "yyyy-MM-dd HH:mm:ss.FFFzz";
 
         public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            return DateTimeOffset.ParseExact(reader.GetString(), _format, 
+            return DateTimeOffset.ParseExact(reader.GetString() ?? string.Empty, _format, 
                 CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal)
                 .UtcDateTime;
         }

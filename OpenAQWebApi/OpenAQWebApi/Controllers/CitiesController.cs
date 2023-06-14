@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OpenAQWebApi.Entities;
-using OpenAQWebApi.Filters;
-using OpenAQWebApi.Services;
+using OpenAQApiWrapper.Entities;
+using OpenAQApiWrapper.Filters;
+using OpenAQApiWrapper.Services;
+using OpenAQWebApi.Results;
 
 namespace OpenAQWebApi.Controllers
 {
@@ -21,10 +22,10 @@ namespace OpenAQWebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<City>> Get([FromQuery] CitiesFilter citiesFilter)
+        public async Task<PagedResult<City>> Get([FromQuery] CitiesFilter citiesFilter)
         {
             var response = await _openAQApiWrapper.GetCities(citiesFilter);
-            return response.Results;
+            return PagedResult<City>.FromOpenApiResponse(response);
         }
     }
 }
