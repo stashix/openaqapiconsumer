@@ -1,0 +1,28 @@
+﻿@using OpenAQApiWrapper.Responses;
+@using OpenAQApiWrapper.Entities;
+
+@model MeasurementsFilterModel
+
+<form asp-action="Index" method="get" class="row g-3">
+    @{
+        <div class="col-md-4">
+            <label asp-for="CountryId" class="form-label">Country Code</label>
+            <input type="text" class="form-control" asp-for="CountryId">
+            <span asp-validation-for="CountryId" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="CityName" class="form-label">City Name</label>
+            <input type="text" class="form-control" asp-for="CityName">
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="OrderBy" class="form-label">Order By</label>
+            <select asp-for="OrderBy" asp-items="Html.GetEnumSelectList<MeasurementsOrder>()" class="form-select">
+                <option value=""></option>
+            </select>
+        </div>
+
+        await Html.RenderPartialAsync("_PagingFilter", Model);
+    }
+</form>

@@ -1,0 +1,26 @@
+﻿@using OpenAQApiWrapper.Entities
+
+@model IPagingInfoModel<IPagingFilterModel>
+
+@if (Model.HasNext || Model.HasPrevious)
+{
+    <div class="row">
+        <div class="col-6">
+            @if (Model.HasPrevious)
+            {
+                <a class="btn btn-secondary" href="@Url.Action("Index", Model.Previous())" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+            }
+        </div>
+
+        <div class="col-6">
+            @if (Model.HasNext)
+            {
+                    <a class="btn btn-secondary float-end" href="@Url.Action("Index", Model.Next())" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+            }
+        </div>
+    </div>
+}

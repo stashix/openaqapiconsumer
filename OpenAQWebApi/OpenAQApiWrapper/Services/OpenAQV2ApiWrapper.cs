@@ -1,29 +1,26 @@
 ﻿using CSharpFunctionalExtensions;
-using CSharpFunctionalExtensions.ValueTasks;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Primitives;
 using OpenAQApiWrapper.Entities;
 using OpenAQApiWrapper.Filters;
 using OpenAQApiWrapper.Responses;
-using System;
 using System.Net;
 using System.Net.Http.Json;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
 
 namespace OpenAQApiWrapper.Services
 {
     internal class OpenAQV2ApiWrapper : IOpenAQApiWrapper
     {
         private readonly ILogger<OpenAQV2ApiWrapper> _logger;
+        private readonly IQuerySerializer _querySerializer;
         private readonly HttpClient _httpClient;
 
-        public OpenAQV2ApiWrapper(ILogger<OpenAQV2ApiWrapper> logger, HttpClient httpClient) 
+        public OpenAQV2ApiWrapper(ILogger<OpenAQV2ApiWrapper> logger, IQuerySerializer querySerializer, HttpClient httpClient) 
         { 
             _logger = logger 
                 ?? throw new ArgumentNullException(nameof(logger));
+
+            _querySerializer = querySerializer 
+                ?? throw new ArgumentNullException(nameof(querySerializer));
 
             _httpClient = httpClient 
                 ?? throw new ArgumentNullException(nameof(httpClient));
@@ -35,7 +32,7 @@ namespace OpenAQApiWrapper.Services
             if (citiesFilter is null)
                 throw new ArgumentNullException(nameof(citiesFilter));
 
-            var url = ConstructQuery("cities", citiesFilter);
+            var url = _querySerializer.ConstructQuery("cities", citiesFilter);
             var result = await GetPagedAsync<City>(url, cancellationToken);
 
             return result;
@@ -47,7 +44,7 @@ namespace OpenAQApiWrapper.Services
             if (countriesFilter is null)
                 throw new ArgumentNullException(nameof(countriesFilter));
 
-            var url = ConstructQuery("countries", countriesFilter);
+            var url = _querySerializer.ConstructQuery("countries", countriesFilter);
             var result = await GetPagedAsync<Country>(url, cancellationToken);
 
             return result;
@@ -70,7 +67,7 @@ namespace OpenAQApiWrapper.Services
             if (measurementsFilter is null)
                 throw new ArgumentNullException(nameof(measurementsFilter));
 
-            var url = ConstructQuery("latest", measurementsFilter);
+            var url = _querySerializer.ConstructQuery("latest", measurementsFilter);
             var result = await GetPagedAsync<LocationMeasurements>(url, cancellationToken);
 
             return result;
@@ -91,14 +88,14 @@ namespace OpenAQApiWrapper.Services
                 {
                     if(response.Content is null)
                     {
-                        _logger.LogError("OpenAQ request {id} received a null response", correlationId);
+                        _logger.LogError("OpenAQ request {id} {url} received a null response", correlationId, relativeUrl);
                         return Result.Failure<PagedResponse<T>>("Received a null response");
                     }
 
                     var result = await response.Content.ReadFromJsonAsync<PagedResponse<T>>(cancellationToken: cancellationToken);
                     if(result is null)
                     {
-                        _logger.LogError("OpenAQ request {id} could not deserialize content", correlationId);
+                        _logger.LogError("OpenAQ request {id} {url} could not deserialize content", correlationId, relativeUrl);
                         return Result.Failure<PagedResponse<T>>("Could not deserialize content");
                     }
 
@@ -110,11 +107,11 @@ namespace OpenAQApiWrapper.Services
                     var validationFailedResponse = await response.Content.ReadFromJsonAsync<UnprocessableResponse>(cancellationToken: cancellationToken);
                     if(validationFailedResponse is null)
                     {
-                        _logger.LogError("OpenAQ request {id} received a 422 error with no payload.", correlationId);
+                        _logger.LogError("OpenAQ request {id} {url} received a 422 error with no payload.", correlationId, relativeUrl);
                         return Result.Failure<PagedResponse<T>>($"Received a {HttpStatusCode.UnprocessableEntity} status code.");
                     }
 
-                    _logger.LogError("OpenAQ request {id} received a 422 error with {payload}", correlationId, validationFailedResponse);
+                    _logger.LogError("OpenAQ request {id} {url} received a 422 error with {payload}", correlationId, relativeUrl, validationFailedResponse);
 
                     var errorMessages = validationFailedResponse.Errors.Select(x => $"{string.Join(":", x.Location)} - {x.Message}");
                     return Result.Failure<PagedResponse<T>>(string.Join(",", errorMessages));
@@ -126,53 +123,9 @@ namespace OpenAQApiWrapper.Services
             }
             catch (Exception exception)
             {
-                _logger.LogError(exception, "OpenAQ request {id} encountered {exceptionType}", correlationId, exception.GetType().Name);
+                _logger.LogError(exception, "OpenAQ request {id} {url} encountered {exceptionType}", correlationId, relativeUrl, exception.GetType().Name);
                 return Result.Failure<PagedResponse<T>>($"{exception.GetType().Name} when calling the API");
             }
-        }
-
-        private static string ConstructQuery<T>(string relativeUri, T filterModel) where T : class
-        {
-            var props = filterModel.GetType()
-                .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                .Where(x => x.CanRead);
-
-            var keyValuePairsList = new List<KeyValuePair<string, StringValues>>();
-            foreach(var prop in props)
-            {
-                var jsonPropertyName = prop.GetCustomAttribute<JsonPropertyNameAttribute>()?.Name;
-                if (string.IsNullOrWhiteSpace(jsonPropertyName))
-                    continue;
-
-                var propertyValue = prop.GetValue(filterModel);
-                if (propertyValue is null)
-                    continue;
-
-                if (prop.PropertyType.IsEnum || Nullable.GetUnderlyingType(prop.PropertyType)?.IsEnum == true)
-                {
-                    var enumType = prop.PropertyType.IsEnum ? prop.PropertyType 
-                        : Nullable.GetUnderlyingType(prop.PropertyType);
-
-                    var enumLabel = enumType?.GetTypeInfo()
-                        .DeclaredMembers
-                        .SingleOrDefault(x => x.Name == propertyValue.ToString())
-                        ?.GetCustomAttribute<EnumMemberAttribute>()?.Value;
-
-                    keyValuePairsList.Add(KeyValuePair.Create(jsonPropertyName, new StringValues(enumLabel)));
-                    continue;
-                }
-
-                if (prop.PropertyType.IsAssignableFrom(typeof(IEnumerable<string>)))
-                {
-                    var collectionValue = propertyValue as IEnumerable<string>;
-                    keyValuePairsList.Add(KeyValuePair.Create(jsonPropertyName, new StringValues(collectionValue?.ToArray())));
-                    continue;
-                }
-
-                keyValuePairsList.Add(KeyValuePair.Create(jsonPropertyName, new StringValues(propertyValue.ToString())));
-            };
-
-            return QueryHelpers.AddQueryString(relativeUri, keyValuePairsList);
         }
     }
 }

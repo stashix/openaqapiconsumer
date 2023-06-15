@@ -8,6 +8,7 @@ namespace OpenAQApiWrapper.Initialization
     {
         public static IServiceCollection AddOpenAQ(this IServiceCollection services)
         {
+            services.AddTransient<IQuerySerializer, ReflectionQuerySerializer>();
             services.AddHttpClient<IOpenAQApiWrapper, OpenAQV2ApiWrapper>(client =>
             {
                 client.BaseAddress = new Uri("https://api.openaq.org/v2/");

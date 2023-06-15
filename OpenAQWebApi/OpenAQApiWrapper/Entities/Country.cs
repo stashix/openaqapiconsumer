@@ -26,7 +26,7 @@ namespace OpenAQApiWrapper.Entities
         public IList<string> Parameters { get; init; } = Array.Empty<string>();
 
         [JsonPropertyName("count")]
-        public int Count { get; init; }
+        public long Count { get; init; }
 
         [JsonPropertyName("cities")]
         public int Cities { get; init; }

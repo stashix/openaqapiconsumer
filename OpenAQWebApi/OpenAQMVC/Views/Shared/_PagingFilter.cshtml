@@ -1,0 +1,19 @@
+﻿@using OpenAQApiWrapper.Entities
+
+@model IPagingFilterModel
+
+<div class="col-md-6">
+    <label asp-for="PageSize" class="form-label">Items Per Page</label>
+    <select asp-for="PageSize" asp-items="new SelectList(PagingFilterModel.PageSizes)" class="form-select"></select>
+    <span asp-validation-for="PageSize" class="text-danger"></span>
+</div>
+
+<div class="col-md-6">
+    <label asp-for="SortBy" class="form-label">Sort Order</label>
+    <select asp-for="SortBy" asp-items="Html.GetEnumSelectList<SortOrder>()" class="form-select"></select>
+    <span asp-validation-for="SortBy" class="text-danger"></span>
+</div>
+
+<div class="col-md-12">
+    <button type="submit" class="btn btn-primary">Filter</button>
+</div>
