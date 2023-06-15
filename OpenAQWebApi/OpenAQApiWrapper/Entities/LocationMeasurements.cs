@@ -11,10 +11,10 @@ namespace OpenAQApiWrapper.Entities
         public string? City { get; init; }
 
         [JsonPropertyName("country")]
-        public string? Country { get; init; }
+        public string? CountryCode { get; init; }
 
         [JsonPropertyName("coordinates")]
-        public GeoCoordinates? Coordinates { get; init; }
+        public Coordinates Coordinates { get; init; } = new Coordinates();
 
         [JsonPropertyName("measurements")]
         public IList<Measurement> Measurements { get; init; } = Array.Empty<Measurement>();

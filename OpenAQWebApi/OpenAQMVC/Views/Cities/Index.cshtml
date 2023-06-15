@@ -1,0 +1,65 @@
+﻿@using OpenAQApiWrapper.Responses;
+@using OpenAQApiWrapper.Entities;
+
+@model PagedResponse<City>
+
+<h1 class="display-4">Cities</h1>
+<form class="row g-3">
+    <div class="col-md-4">
+        <label for="pageSize" class="form-label">Items Per Page</label>
+        <select class="form-select" id="pageSize" aria-describedby="pageSizeHelp">
+            <option value="10" selected>10</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+        </select>
+        <div id="pageSizeHelp" class="form-text">Results per page</div>
+    </div>
+
+    <div class="col-md-4">
+        <label for="sortBy" class="form-label">Sort Order</label>
+        <select class="form-select" id="sortBy" aria-describedby="sortByHelp">
+            <option value="0" selected>Ascending</option>
+            <option value="10">Descending</option>
+        </select>
+        <div id="sortByHelp" class="form-text">Sort direction</div>
+    </div>
+
+    <div class="col-md-4">
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </div>
+</form>
+<table class="table table-striped table-dark">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Country Code</th>
+            <th scope="col">Count</th>
+            <th scope="col">Locations</th>
+            <th scope="col">First Updated</th>
+            <th scope="col">Last Updated</th>
+            <th scope="col">Parameters</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int index = 1;
+        }
+
+        @foreach (var city in Model.Results)
+        {
+            <tr>
+                <td>@(((Model.Metadata.Page - 1) * Model.Metadata.Limit) + index)</td>
+                <td>@city.Name</td>
+                <td>@city.CountryCode</td>
+                <td>@city.Count</td>
+                <td>@city.Locations</td>
+                <td>@city.FirstUpdated</td>
+                <td>@city.LastUpdated</td>
+                <td>@string.Join(", ", city.Parameters.OrderBy(x => x))</td>
+            </tr>
+
+            index++;
+        }
+    </tbody>
+</table>

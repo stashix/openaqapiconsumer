@@ -5,6 +5,9 @@ namespace OpenAQApiWrapper.Filters
 {
     public sealed class LatestMeasurementsFilter : PagingFilter
     {
+        [JsonPropertyName("country_id")]
+        public string? CountryId { get; init; }
+
         [JsonPropertyName("country")]
         public IEnumerable<string>? Countries { get; init; }
 

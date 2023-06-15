@@ -32,6 +32,6 @@ namespace OpenAQApiWrapper.Entities
         public int Cities { get; init; }
 
         [JsonPropertyName("sources")]
-        public int Source { get; init; }
+        public int Sources { get; init; }
     }
 }

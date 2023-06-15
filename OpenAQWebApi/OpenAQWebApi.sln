@@ -5,7 +5,9 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenAQWebApi", "OpenAQWebApi\OpenAQWebApi.csproj", "{DF03A6AF-5081-4436-995E-0446BA3C0D27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAQApiWrapper", "OpenAQApiWrapper\OpenAQApiWrapper.csproj", "{69B2A498-02BE-48C5-93EF-D13BB810A790}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenAQApiWrapper", "OpenAQApiWrapper\OpenAQApiWrapper.csproj", "{69B2A498-02BE-48C5-93EF-D13BB810A790}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAQMVC", "OpenAQMVC\OpenAQMVC.csproj", "{25FDC4EB-1B21-4688-8065-97E3D66DAFC2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{69B2A498-02BE-48C5-93EF-D13BB810A790}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69B2A498-02BE-48C5-93EF-D13BB810A790}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69B2A498-02BE-48C5-93EF-D13BB810A790}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25FDC4EB-1B21-4688-8065-97E3D66DAFC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25FDC4EB-1B21-4688-8065-97E3D66DAFC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25FDC4EB-1B21-4688-8065-97E3D66DAFC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25FDC4EB-1B21-4688-8065-97E3D66DAFC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
