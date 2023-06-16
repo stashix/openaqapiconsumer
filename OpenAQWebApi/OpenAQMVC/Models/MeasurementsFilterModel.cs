@@ -5,7 +5,11 @@ namespace OpenAQMVC.Models
 {
     public class MeasurementsFilterModel : PagingFilterModel
     {
-        public MeasurementsFilterModel() : base() { }
+        public MeasurementsFilterModel() : base() 
+        {
+            //for today, asc suddenly returns 500, but then so does using the country filter so who knows at this point
+            SortBy = SortOrder.Descending;
+        }
 
         public MeasurementsFilterModel(MeasurementsFilterModel model, int page) : base(model, page)
         {

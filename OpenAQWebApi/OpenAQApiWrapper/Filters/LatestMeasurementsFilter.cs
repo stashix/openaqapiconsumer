@@ -14,6 +14,9 @@ namespace OpenAQApiWrapper.Filters
         [JsonPropertyName("city")]
         public IEnumerable<string>? Cities { get; init; }
 
+        [JsonPropertyName("dumpRaw")]
+        public bool DumpRaw { get; init; }
+
         [JsonPropertyName("order_by")]
         public MeasurementsOrder? OrderBy { get; init; } 
     }
