@@ -117,7 +117,7 @@ namespace OpenAQApiWrapper.Services
                     return Result.Failure<PagedResponse<T>>(string.Join(",", errorMessages));
                 }
 
-                _logger.LogError("OpenAQ request {id} received {statusCode}", correlationId, response.StatusCode);
+                _logger.LogError("OpenAQ request {id} {url} received {statusCode}", correlationId, relativeUrl, response.StatusCode);
 
                 return Result.Failure<PagedResponse<T>>($"Received a {response.StatusCode} status code.");
             }

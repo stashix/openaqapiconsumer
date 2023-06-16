@@ -4,6 +4,7 @@
 @model PagedResultViewModel<CountriesFilterModel, Country>
 
 <h1 class="display-4">Countries</h1>
+<hr />
 @{
     await Html.RenderPartialAsync("_Filter", Model.PagingInfo.CurrentFilter);
 }

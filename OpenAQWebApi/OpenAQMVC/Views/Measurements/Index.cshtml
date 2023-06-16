@@ -4,6 +4,7 @@
 @model PagedResultViewModel<MeasurementsFilterModel, LocationMeasurements>
 
 <h1 class="display-4">Latest Measurements</h1>
+<hr />
 @{
     await Html.RenderPartialAsync("_Filter", Model.PagingInfo.CurrentFilter);
 }
